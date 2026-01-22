@@ -4,7 +4,6 @@ import Colors from "../../themes/Colors";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from "react-icons/fi";
 import { IoRestaurant } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { UserService } from "../../service/User.service";
 import { useAuth } from "../../contexts/AuthContext";
 
 type Props = {
