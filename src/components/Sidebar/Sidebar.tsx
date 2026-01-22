@@ -4,12 +4,10 @@ import {
   FiShoppingCart,
   FiBox,
   FiUsers,
-  FiBarChart2,
   FiSettings,
 } from "react-icons/fi";
 import styles from "./Sidebar.module.css";
 import { FileBarChart2Icon } from "lucide-react";
-import { BiExit } from "react-icons/bi";
 import { IoExitOutline } from "react-icons/io5";
 import { useAuth } from "../../contexts/AuthContext";
 

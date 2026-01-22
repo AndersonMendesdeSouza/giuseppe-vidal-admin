@@ -1,9 +1,7 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import styles from "./Login.module.css";
 import Colors from "../../themes/Colors";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from "react-icons/fi";
-import { ResponsiveContainer, AreaChart, Area, XAxis, Tooltip } from "recharts";
-import { BiRestaurant } from "react-icons/bi";
 import { IoRestaurant } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../../service/User.service";

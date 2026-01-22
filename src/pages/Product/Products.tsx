@@ -7,7 +7,6 @@ import type { CategoryKey } from "../../types/Product-type";
 import { ProductService } from "../../service/Product.service";
 import type { ProductResponse } from "../../dtos/response/product-response.dto";
 import { ProductCategoryEnum } from "../../dtos/enums/product-category.enum";
-import type { ImageResponse } from "../../dtos/response/image-response.dto";
 import { useNavigate } from "react-router-dom";
 
 export function Products() {

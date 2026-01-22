@@ -35,14 +35,8 @@ export default function ProductCard({
   category,
   price,
   imageUrl,
-  stock,
-  available,
-  onEdit,
   onDelete,
-  onToggleAvailable,
-  navigateTo,
   isActive,
-  stockEnabled,
 }: Props) {
   const navigate = useNavigate();
   const [status, setStatus] = useState<ProductStatusEnum>(isActive);

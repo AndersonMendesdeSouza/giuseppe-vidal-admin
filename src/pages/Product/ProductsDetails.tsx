@@ -214,8 +214,6 @@ export function ProductsDetails() {
     return next;
   };
 
-  const hasErrors = Object.keys(errors).length > 0;
-
   async function onSave(): Promise<void> {
     if (saving) return;
 
