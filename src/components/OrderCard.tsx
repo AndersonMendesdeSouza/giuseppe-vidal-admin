@@ -1,0 +1,85 @@
+import { useNavigate } from "react-router-dom";
+import { OrderStatusEnum } from "../dtos/enums/orders-status.enum";
+import styles from "./OrderCard.module.css";
+import { FiChevronRight } from "react-icons/fi";
+
+type OrderItem = {
+  name: string;
+  quantity: number;
+};
+
+type Props = {
+  orderNumber: string;
+  customerName: string;
+  minutesAgo: number;
+  items: OrderItem[];
+  total: number;
+  onAccept?: () => void;
+  status: OrderStatusEnum;
+  navigateTo: string;
+};
+
+export function OrderCard({
+  orderNumber,
+  customerName,
+  minutesAgo,
+  items,
+  total,
+  onAccept,
+  status,
+  navigateTo,
+}: Props) {
+  const price = total.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  const statusClass =
+    {
+      [OrderStatusEnum.NEW]: "btnNew",
+      [OrderStatusEnum.ON_ROUTE]: "btnOnRoute",
+      [OrderStatusEnum.PREPARING]: "btnPreparing",
+    }[status] ?? "btnDefault";
+
+  const navigate = useNavigate();
+  return (
+    <div className={styles.card} onClick={() => navigate(navigateTo)}>
+      <div className={styles.header}>
+        <div className={styles.left}>
+          <div className={styles.orderNumber}>#{orderNumber}</div>
+          <div className={styles.customerName}>{customerName}</div>
+        </div>
+
+        <div className={styles.timePill}>{minutesAgo} min</div>
+      </div>
+
+      <ul className={styles.items}>
+        {items.slice(0, 2).map((it, idx) => (
+          <li key={`${it.name}-${idx}`} className={styles.item}>
+            <span className={styles.dot} />
+            <span className={styles.itemText}>
+              {it.quantity}x {it.name}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <div className={styles.divider} />
+
+      <div className={styles.footer}>
+        <div className={styles.price}>{price}</div>
+
+        <button className={styles[statusClass]} onClick={onAccept}>
+          {status === OrderStatusEnum.NEW
+            ? "Aceitar"
+            : status === OrderStatusEnum.PREPARING
+              ? "Finalizar"
+              : status === OrderStatusEnum.ON_ROUTE
+                ? "Concluir"
+                : ""}{" "}
+          <FiChevronRight className={styles.acceptIcon} />
+        </button>
+      </div>
+    </div>
+  );
+}

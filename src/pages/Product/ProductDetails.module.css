@@ -1,0 +1,613 @@
+.page {
+  width: 100%;
+  padding: 18px;
+  height: 100vh;
+  overflow-y: auto;
+  background: linear-gradient(
+    180deg,
+    var(--bgSecondary) 0%,
+    #0f0f0f 60%,
+    #0b0b0b 100%
+  );
+  color: var(--textPrimary);
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.backBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--textPrimary);
+  font-size: 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  margin: 6px 0 0 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+}
+
+.topActions {
+  display: flex;
+  gap: 10px;
+}
+
+.btnGhost {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 800;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--highlight);
+  color: #111;
+  font-weight: 900;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 14px 26px rgba(255, 212, 0, 0.16);
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  margin: 6px 0 10px 2px;
+}
+
+.sectionDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--highlight);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1.35fr 1.35fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.mediaCard {
+  position: relative;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  height: 200px;
+}
+
+.mediaCardActive {
+  border: 1px solid rgba(255, 212, 0, 0.55);
+  box-shadow: 0 18px 34px rgba(255, 212, 0, 0.10);
+}
+
+.primaryTag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--highlight);
+  color: #111;
+  font-weight: 900;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  z-index: 2;
+}
+
+.mediaImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.02);
+}
+
+.mediaActions {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.mediaBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.uploadCard {
+  height: 130px;
+  border-radius: 16px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.uploadIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.uploadText {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 14px;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.panelIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  background: rgba(255, 212, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panelTitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.input,
+.select,
+.textarea {
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 0 12px;
+  outline: none;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.textarea {
+  min-height: 96px;
+  padding: 12px;
+  resize: none;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+}
+
+.statusText {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 900;
+  font-size: 11px;
+}
+
+.toggle {
+  width: 46px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  cursor: pointer;
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #fff;
+  left: 4px;
+}
+
+.toggleOn {
+  background: rgba(255, 212, 0, 0.22);
+  border: 1px solid rgba(255, 212, 0, 0.28);
+}
+
+.toggleOn .toggleThumb {
+  left: 22px;
+  background: var(--highlight);
+}
+
+.toggleOff .toggleThumb {
+  left: 4px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.moneyInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.moneyPrefix {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 212, 0, 0.9);
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.moneyInput .input {
+  padding-left: 36px;
+}
+
+.inputMuted {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.help {
+  margin-top: -2px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.inventory {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.inventoryLabel {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.bottomBar {
+  margin-top: 12px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 14px;
+  backdrop-filter: blur(10px);
+}
+
+.delete {
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  background-color: #ef44444b;
+  font-weight: 900;
+  padding: 12px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 12px;
+ display: flex;
+ gap: 10px;
+ align-items: center;
+ justify-content: center;
+
+}
+
+.bottomRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill {
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 3px;
+  cursor: pointer;
+}
+
+.pillDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(0);
+  transition: transform 180ms ease;
+}
+
+.pillOn {
+  border: 1px solid rgba(255, 212, 0, 0.25);
+  background: rgba(255, 212, 0, 0.2);
+}
+
+.pillOn .pillDot {
+  background: #ffd400;
+  transform: translateX(18px);
+}
+
+.pillOff {
+  opacity: 0.7;
+}
+
+.disp {
+  font-size: 11px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.discard {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.save {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: none;
+  background: var(--highlight);
+  color: #111;
+  font-weight: 900;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 14px 26px rgba(255, 212, 0, 0.16);
+}
+
+.check {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+.addonsPanel {
+  margin-top: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.addonsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.addonsTitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 900;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.addonDot {
+  width: 28px;
+  height: 28px;
+  border-radius: 12px;
+  background: rgba(255, 212, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--highlight);
+  font-weight: 900;
+}
+
+.linkNew {
+  border: none;
+  background: transparent;
+  color: var(--highlight);
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.addonsList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.addonChip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.addonLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.addonIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addonName {
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.addonPrice {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 800;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.addonRemove {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+  .gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .addonsList {
+    grid-template-columns: 1fr;
+  }
+}

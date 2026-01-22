@@ -12,5 +12,6 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: var(--font-primary);
+  overflow: hidden;
   background: #000; /* opcional */
 }

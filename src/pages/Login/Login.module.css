@@ -1,0 +1,370 @@
+.page {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1.35fr 0.55fr;
+  background: radial-gradient(1000px 600px at 20% 30%, rgba(255, 215, 0, 0.06), transparent 55%),
+    linear-gradient(180deg, var(--bgPrimary), var(--bgSecondary));
+  color: var(--textPrimary);
+  overflow:scroll;
+}
+
+.left {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--heroImage);
+  background-size: cover;
+  background-position: center;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: #00000094;
+}
+
+.leftInner {
+  position: relative;
+  z-index: 2;
+  padding: 44px 48px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  left: 40px;
+}
+
+.brandRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.brandMark {
+  width: 35px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--highlight);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.brandName {
+  font-weight: 500;
+  opacity: 0.92;
+  font-size: 20px;
+  font-style: italic;
+}
+
+.heroTitle {
+  font-size: 64px;
+  line-height: 0.98;
+  letter-spacing: -1px;
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.heroTitleHighlight {
+  color: var(--highlight);
+  text-shadow: 0 10px 28px rgba(255, 215, 0, 0.12);
+}
+
+.heroDesc {
+  width: 40%;
+  margin: 6px 0 0;
+  max-width: 520px;
+  color: var(--textSecondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.statsRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statValue {
+  font-weight: 900;
+  color: var(--highlight);
+  font-size: 18px;
+  letter-spacing: 0.2px;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 1px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.miniWidget {
+  position: absolute;
+  left: 36px;
+  bottom: 34px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.miniChartWrap {
+  width: 220px;
+  height: 78px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(10px);
+}
+
+.miniChart {
+  position: absolute;
+  inset: 0;
+  padding: 8px 10px;
+}
+
+.tooltip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  color: var(--textPrimary);
+  font-size: 12px;
+}
+
+.tooltipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--highlight);
+  box-shadow: 0 10px 18px rgba(255, 215, 0, 0.18);
+}
+
+.tooltipText {
+  font-weight: 800;
+}
+
+.right {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 44px;
+  background: radial-gradient(700px 500px at 50% 15%, rgba(255, 255, 255, 0.05), transparent 60%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.65));
+}
+
+.loginWrap {
+  width: 90%;
+}
+
+.panelHeader {
+  width: 100%;
+  margin-bottom: 26px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelTitle {
+  width:80%;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: -0.6px;
+  line-height: 1.05;
+}
+
+.panelSub {
+  width:80%;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0px 0 10px;
+  font-weight: 600;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 14px;
+  padding: 16px 16px;
+  background: rgba(255, 215, 0, 0.09);
+  border: 1px solid rgba(255, 215, 0, 0.12);
+  width: 100%;
+  height: 45px;
+}
+
+.inputIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 18px;
+  width: 22px;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--textPrimary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 600;
+}
+
+.eyeBtn {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 22px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.rowBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.62);
+  user-select: none;
+  font-size: 12px;
+}
+
+.check input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--highlight);
+}
+
+.linkBtn {
+  border: none;
+  background: transparent;
+  color: var(--highlight);
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.submit {
+  margin-top: 26px;
+  width: 100%;
+  height: 45px;
+  border: none;
+  border-radius: 16px;
+  background: var(--highlight);
+  color: #0b0b0b;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  box-shadow: 0 18px 44px rgba(255, 215, 0, 0.18);
+}
+
+.submitIcon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 22px;
+}
+
+.hr {
+  margin-top: 26px;
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.secureLabel {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 500;
+}
+
+@media (max-width: 980px) {
+  .page {
+    grid-template-columns: 1fr;
+  overflow:scroll;
+  }
+  .left {
+    min-height: 52vh;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .heroTitle {
+    font-size: 52px;
+  }
+  .miniWidget {
+    left: 22px;
+    bottom: 18px;
+    transform: scale(0.96);
+    transform-origin: left bottom;
+  }
+  .right {
+    padding: 46px 26px;
+  }
+  .panelTitle {
+    font-size: 40px;
+  }
+}

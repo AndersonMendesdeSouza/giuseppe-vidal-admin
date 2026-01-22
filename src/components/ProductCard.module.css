@@ -1,0 +1,155 @@
+.card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.media {
+  position: relative;
+  height: 140px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imageDim {
+  filter: grayscale(0.1) brightness(0.55);
+}
+
+.cardActions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.iconBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.outOfStock {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(239, 68, 68, 0.18);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.body {
+  padding: 12px;
+}
+
+.category {
+  display: inline-flex;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 900;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.name {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.desc {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.footer {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.price {
+  color: #ffd400;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill {
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 3px;
+  cursor: pointer;
+}
+
+.pillDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(0);
+  transition: transform 180ms ease;
+}
+
+.pillOn {
+  border: 1px solid rgba(255, 212, 0, 0.25);
+  background: rgba(255, 212, 0, 0.2);
+}
+
+.pillOn .pillDot {
+  background: #ffd400;
+  transform: translateX(18px);
+}
+
+.pillOff {
+  opacity: 0.7;
+}
+
+.disp {
+  font-size: 11px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.55);
+}
