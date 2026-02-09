@@ -2,7 +2,6 @@ import { useState } from "react";
 import styles from "./Login.module.css";
 import Colors from "../../themes/Colors";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from "react-icons/fi";
-import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { UserService } from "../../service/User.service";

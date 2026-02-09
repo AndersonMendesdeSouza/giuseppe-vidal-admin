@@ -33,7 +33,20 @@ type RecentSale = {
   status: "CONCLUIDO" | "CANCELADO";
 };
 
-const DASHBOARD_MOCK = {
+type Period = "day" | "week" | "month";
+
+type ChartPoint = {
+  name: string;
+  value: number;
+};
+
+type PeriodData = {
+  metrics: MetricCard[];
+  chart: ChartPoint[];
+  recent: RecentSale[];
+};
+
+const DASHBOARD_MOCK: Record<Period, PeriodData> = {
   day: {
     metrics: [
       {
@@ -50,7 +63,7 @@ const DASHBOARD_MOCK = {
         icon: "money",
         badgeTone: "success",
       },
-    ] satisfies MetricCard[],
+    ],
     chart: [
       { name: "08h", value: 12 },
       { name: "10h", value: 18 },
@@ -101,7 +114,7 @@ const DASHBOARD_MOCK = {
         total: "R$ 115,00",
         status: "CONCLUIDO",
       },
-    ] satisfies RecentSale[],
+    ],
   },
   week: {
     metrics: [
@@ -120,7 +133,7 @@ const DASHBOARD_MOCK = {
         badgeTone: "success",
       },
    
-    ] satisfies MetricCard[],
+    ],
     chart: [
       { name: "SEG", value: 48 },
       { name: "TER", value: 64 },
@@ -171,7 +184,7 @@ const DASHBOARD_MOCK = {
         total: "R$ 115,00",
         status: "CONCLUIDO",
       },
-    ] satisfies RecentSale[],
+    ],
   },
   month: {
     metrics: [
@@ -189,7 +202,7 @@ const DASHBOARD_MOCK = {
         icon: "money",
         badgeTone: "success",
       },
-    ] satisfies MetricCard[],
+    ],
     chart: [
       { name: "SEM 1", value: 210 },
       { name: "SEM 2", value: 248 },
@@ -237,9 +250,9 @@ const DASHBOARD_MOCK = {
         total: "R$ 68,00",
         status: "CONCLUIDO",
       },
-    ] satisfies RecentSale[],
+    ],
   },
-} as const;
+};
 
 function MetricIcon({ kind }: { kind: MetricCard["icon"] }) {
   if (kind === "money") return <span className={styles.metricIcon}>💰</span>;
@@ -259,7 +272,7 @@ function CustomTooltip({ active, payload, label }: any) {
 }
 
 export function Dashboard() {
-  const [period, setPeriod] = useState<"day" | "week" | "month">("week");
+  const [period, setPeriod] = useState<Period>("week");
 
   const periodData = useMemo(() => DASHBOARD_MOCK[period], [period]);
   const colorVars = {
