@@ -1,15 +1,10 @@
 .page {
   width: 100%;
-  padding: 18px;
+  padding: 24px;
   height: 100vh;
   overflow-y: auto;
-  background: linear-gradient(
-    180deg,
-    var(--bgSecondary) 0%,
-    #0f0f0f 60%,
-    #0b0b0b 100%
-  );
-  color: var(--textPrimary);
+  background: #f6f6f2;
+  color: #1d1f23;
 }
 
 .top {
@@ -17,16 +12,16 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
 .backBtn {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--textPrimary);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #fff;
+  color: #1d1f23;
   font-size: 18px;
   cursor: pointer;
   display: inline-flex;
@@ -36,15 +31,15 @@
 
 .title {
   margin: 0;
-  color: rgba(255, 255, 255, 0.92);
+  color: #1d1f23;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.02em;
 }
 
 .subtitle {
   margin: 6px 0 0 0;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(29, 31, 35, 0.55);
   font-size: 12px;
 }
 
@@ -57,10 +52,10 @@
   height: 36px;
   padding: 0 12px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 800;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #fff;
+  color: #1d1f23;
+  font-weight: 700;
   font-size: 12px;
   display: inline-flex;
   align-items: center;
@@ -73,7 +68,7 @@
   padding: 0 12px;
   border-radius: 10px;
   border: none;
-  background: var(--highlight);
+  background: #f6c40f;
   color: #111;
   font-weight: 900;
   font-size: 12px;
@@ -81,14 +76,28 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  box-shadow: 0 14px 26px rgba(255, 212, 0, 0.16);
+  box-shadow: 0 14px 26px rgba(246, 196, 15, 0.22);
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panelGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .sectionLabel {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(29, 31, 35, 0.6);
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.18em;
@@ -99,35 +108,34 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--highlight);
+  background: #f6c40f;
 }
 
 .gallery {
   display: grid;
-  grid-template-columns: 1.35fr 1.35fr 1fr;
-  gap: 14px;
-  margin-bottom: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .mediaCard {
   position: relative;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
   overflow: hidden;
   height: 200px;
 }
 
 .mediaCardActive {
-  border: 1px solid rgba(255, 212, 0, 0.55);
-  box-shadow: 0 18px 34px rgba(255, 212, 0, 0.10);
+  border: 1px solid rgba(246, 196, 15, 0.5);
+  box-shadow: 0 18px 34px rgba(246, 196, 15, 0.18);
 }
 
 .primaryTag {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: var(--highlight);
+  background: #f6c40f;
   color: #111;
   font-weight: 900;
   font-size: 10px;
@@ -157,9 +165,9 @@
   width: 34px;
   height: 34px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.35);
-  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  color: #1d1f23;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,11 +175,11 @@
 }
 
 .uploadCard {
-  height: 130px;
+  min-height: 160px;
   border-radius: 16px;
-  border: 1px dashed rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.55);
+  border: 1px dashed rgba(17, 17, 17, 0.16);
+  background: #fafaf7;
+  color: rgba(29, 31, 35, 0.65);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -184,7 +192,7 @@
   width: 42px;
   height: 42px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.06);
+  background: #fff4c6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,6 +205,12 @@
   font-weight: 800;
 }
 
+.uploadHint {
+  font-size: 11px;
+  color: rgba(29, 31, 35, 0.5);
+  font-weight: 600;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -204,8 +218,8 @@
 }
 
 .panel {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 16px;
   padding: 14px;
 }
@@ -221,14 +235,14 @@
   width: 32px;
   height: 32px;
   border-radius: 12px;
-  background: rgba(255, 212, 0, 0.12);
+  background: #fff4c6;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .panelTitle {
-  color: rgba(255, 255, 255, 0.9);
+  color: #1d1f23;
   font-weight: 900;
   font-size: 13px;
 }
@@ -246,7 +260,7 @@
 }
 
 .label {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(29, 31, 35, 0.55);
   font-size: 10px;
   font-weight: 900;
   letter-spacing: 0.14em;
@@ -257,9 +271,9 @@
 .textarea {
   height: 40px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.18);
-  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f8f8f3;
+  color: #1d1f23;
   padding: 0 12px;
   outline: none;
   font-weight: 800;
@@ -286,7 +300,7 @@
 }
 
 .statusText {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(29, 31, 35, 0.75);
   font-weight: 900;
   font-size: 11px;
 }
@@ -295,8 +309,8 @@
   width: 46px;
   height: 26px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  background: rgba(17, 17, 17, 0.06);
   position: relative;
   cursor: pointer;
 }
@@ -313,13 +327,13 @@
 }
 
 .toggleOn {
-  background: rgba(255, 212, 0, 0.22);
-  border: 1px solid rgba(255, 212, 0, 0.28);
+  background: rgba(246, 196, 15, 0.2);
+  border: 1px solid rgba(246, 196, 15, 0.35);
 }
 
 .toggleOn .toggleThumb {
   left: 22px;
-  background: var(--highlight);
+  background: #f6c40f;
 }
 
 .toggleOff .toggleThumb {
@@ -336,7 +350,7 @@
 .moneyPrefix {
   position: absolute;
   left: 12px;
-  color: rgba(255, 212, 0, 0.9);
+  color: #b68100;
   font-weight: 900;
   font-size: 12px;
 }
@@ -346,12 +360,12 @@
 }
 
 .inputMuted {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(29, 31, 35, 0.55);
 }
 
 .help {
   margin-top: -2px;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(29, 31, 35, 0.45);
   font-size: 11px;
   font-weight: 700;
 }
@@ -363,20 +377,20 @@
   justify-content: space-between;
   padding: 0 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f8f8f3;
 }
 
 .inventoryLabel {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(29, 31, 35, 0.75);
   font-weight: 800;
   font-size: 12px;
 }
 
 .bottomBar {
   margin-top: 12px;
-  background: rgba(0, 0, 0, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 16px;
   padding: 12px 14px;
   display: flex;
@@ -384,7 +398,7 @@
   justify-content: space-between;
   position: sticky;
   bottom: 14px;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 36px rgba(17, 17, 17, 0.08);
 }
 
 .delete {
@@ -419,8 +433,8 @@
   width: 40px;
   height: 22px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  background: rgba(17, 17, 17, 0.06);
   display: inline-flex;
   align-items: center;
   padding: 0 3px;
@@ -431,18 +445,18 @@
   width: 16px;
   height: 16px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #fff;
   transform: translateX(0);
   transition: transform 180ms ease;
 }
 
 .pillOn {
-  border: 1px solid rgba(255, 212, 0, 0.25);
-  background: rgba(255, 212, 0, 0.2);
+  border: 1px solid rgba(246, 196, 15, 0.4);
+  background: rgba(246, 196, 15, 0.2);
 }
 
 .pillOn .pillDot {
-  background: #ffd400;
+  background: #f6c40f;
   transform: translateX(18px);
 }
 
@@ -453,16 +467,16 @@
 .disp {
   font-size: 11px;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(29, 31, 35, 0.55);
 }
 
 .discard {
   height: 38px;
   padding: 0 14px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #fff;
+  color: #1d1f23;
   font-weight: 900;
   font-size: 12px;
   cursor: pointer;
@@ -473,7 +487,7 @@
   padding: 0 14px;
   border-radius: 12px;
   border: none;
-  background: var(--highlight);
+  background: #f6c40f;
   color: #111;
   font-weight: 900;
   font-size: 12px;
@@ -481,14 +495,14 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  box-shadow: 0 14px 26px rgba(255, 212, 0, 0.16);
+  box-shadow: 0 14px 26px rgba(246, 196, 15, 0.2);
 }
 
 .check {
   width: 18px;
   height: 18px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(17, 17, 17, 0.1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -497,8 +511,8 @@
 
 .addonsPanel {
   margin-top: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #fff;
+  border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 16px;
   padding: 14px;
 }
@@ -511,7 +525,7 @@
 }
 
 .addonsTitle {
-  color: rgba(255, 255, 255, 0.9);
+  color: #1d1f23;
   font-weight: 900;
   font-size: 13px;
   display: flex;
@@ -523,18 +537,18 @@
   width: 28px;
   height: 28px;
   border-radius: 12px;
-  background: rgba(255, 212, 0, 0.12);
+  background: #fff4c6;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--highlight);
+  color: #f6c40f;
   font-weight: 900;
 }
 
 .linkNew {
   border: none;
   background: transparent;
-  color: var(--highlight);
+  color: #b68100;
   font-weight: 900;
   font-size: 12px;
   cursor: pointer;
@@ -552,8 +566,8 @@
   justify-content: space-between;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f8f8f3;
 }
 
 .addonLeft {
@@ -566,20 +580,20 @@
   width: 34px;
   height: 34px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.06);
+  background: #fff4c6;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .addonName {
-  color: rgba(255, 255, 255, 0.88);
+  color: #1d1f23;
   font-weight: 900;
   font-size: 12px;
 }
 
 .addonPrice {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(29, 31, 35, 0.55);
   font-weight: 800;
   font-size: 11px;
   margin-top: 2px;
@@ -589,9 +603,9 @@
   width: 34px;
   height: 34px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  background: #fff;
+  color: rgba(29, 31, 35, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -599,15 +613,17 @@
 }
 
 @media (max-width: 1100px) {
-  .gallery {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .grid {
+  .panelGrid {
     grid-template-columns: 1fr;
   }
 
-  .addonsList {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .gallery {
     grid-template-columns: 1fr;
   }
 }

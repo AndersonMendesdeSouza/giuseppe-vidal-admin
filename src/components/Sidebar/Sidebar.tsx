@@ -10,6 +10,7 @@ import styles from "./Sidebar.module.css";
 import { FileBarChart2Icon } from "lucide-react";
 import { IoExitOutline } from "react-icons/io5";
 import { useAuth } from "../../contexts/AuthContext";
+import logo from "../../assets/logo.png";
 
 export function Sidebar() {
   const { logout } = useAuth();
@@ -26,14 +27,17 @@ export function Sidebar() {
     <aside className={styles.sidebar}>
       <div>
         <div className={styles.brand}>
-          <div className={styles.brandIcon}>🍔</div>
-          <div>
-            <strong className={styles.brandTitle}>BURGUER ADMIN</strong>
+          <div className={styles.brandIcon} aria-hidden="true">
+            <img src={logo} alt="Logo" style={{ width: 40, height: 40 }} />
+          </div>
+          <div style={{ paddingTop: 10 }}>
+            <strong className={styles.brandTitle}>GIUSEPPE</strong>
             <span className={styles.brandSubtitle}>Gestão de Unidade</span>
           </div>
         </div>
 
         <nav className={styles.menu}>
+          <span className={styles.sectionTitle}>Menu principal</span>
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
@@ -42,17 +46,6 @@ export function Sidebar() {
           >
             <FiGrid className={styles.icon} />
             <span>Painel</span>
-          </NavLink>
-
-          <NavLink
-            to="/pedidos"
-            className={({ isActive }) =>
-              isActive ? styles.active : styles.link
-            }
-          >
-            <FiShoppingCart className={styles.icon} />
-            <span>Pedidos</span>
-            <span className={styles.badge}>12</span>
           </NavLink>
 
           <NavLink
@@ -66,15 +59,27 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink
+            to="/pedidos"
+            className={({ isActive }) =>
+              isActive ? styles.active : styles.link
+            }
+          >
+            <FiShoppingCart className={styles.icon} />
+            <span>Baixa de estoque</span>
+            <span className={styles.badge}>12</span>
+          </NavLink>
+
+          <NavLink
             to="/clientes"
             className={({ isActive }) =>
               isActive ? styles.active : styles.link
             }
           >
             <FiUsers className={styles.icon} />
-            <span>Clientes</span>
+            <span>Fornecedores</span>
           </NavLink>
 
+          <span className={styles.sectionTitle}>Relatorios</span>
           <NavLink
             to="/relatorios"
             className={({ isActive }) =>
@@ -105,18 +110,6 @@ export function Sidebar() {
           <IoExitOutline className={styles.icon} color="red" />
           <span>Sair</span>
         </NavLink>
-
-        <div className={styles.user}>
-          <img
-            src="https://i.pravatar.cc/40"
-            alt="User"
-            className={styles.avatar}
-          />
-          <div>
-            <strong>Ricardo Silva</strong>
-            <span>Gerente</span>
-          </div>
-        </div>
       </div>
     </aside>
   );

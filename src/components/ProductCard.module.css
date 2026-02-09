@@ -1,15 +1,14 @@
 .card {
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  background: var(--surface);
+  box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
 }
 
 .media {
   position: relative;
-  height: 140px;
-  background: rgba(0, 0, 0, 0.2);
+  height: 170px;
+  background: var(--surface-muted);
 }
 
 .image {
@@ -17,6 +16,8 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 16px;
+
 }
 
 .imageDim {
@@ -35,9 +36,9 @@
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(0, 0, 0, 0.35);
-  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-default);
+  background: var(--surface);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,9 +49,9 @@
   position: absolute;
   top: 12px;
   left: 12px;
-  background: rgba(239, 68, 68, 0.18);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.22);
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+  border: 1px solid rgba(245, 158, 11, 0.22);
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 10px;
@@ -66,9 +67,9 @@
   display: inline-flex;
   padding: 5px 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.65);
+  background: var(--surface-muted);
+  border: 1px solid var(--border-default);
+  color: var(--text-muted);
   font-weight: 900;
   font-size: 10px;
   letter-spacing: 0.12em;
@@ -78,13 +79,13 @@
   margin-top: 10px;
   font-size: 14px;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text-primary);
 }
 
 .desc {
   margin-top: 6px;
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 700;
+  color: var(--text-secondary);
+  font-weight: 600;
   font-size: 12px;
   line-height: 1.35;
   display: -webkit-box;
@@ -102,7 +103,7 @@
 }
 
 .price {
-  color: #ffd400;
+  color: var(--text-primary);
   font-weight: 900;
   font-size: 14px;
 }
@@ -117,8 +118,8 @@
   width: 40px;
   height: 22px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-default);
+  background: var(--surface-muted);
   display: inline-flex;
   align-items: center;
   padding: 0 3px;
@@ -129,18 +130,18 @@
   width: 16px;
   height: 16px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #ffffff;
   transform: translateX(0);
   transition: transform 180ms ease;
 }
 
 .pillOn {
-  border: 1px solid rgba(255, 212, 0, 0.25);
-  background: rgba(255, 212, 0, 0.2);
+  border: 1px solid rgba(255, 200, 61, 0.35);
+  background: rgba(255, 200, 61, 0.2);
 }
 
 .pillOn .pillDot {
-  background: #ffd400;
+  background: var(--highlight-primary);
   transform: translateX(18px);
 }
 
@@ -151,5 +152,5 @@
 .disp {
   font-size: 11px;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
 }

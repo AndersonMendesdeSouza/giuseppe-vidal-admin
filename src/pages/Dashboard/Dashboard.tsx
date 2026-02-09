@@ -1,14 +1,17 @@
+import type { CSSProperties } from "react";
+import { useMemo, useState } from "react";
 import styles from "./Dashboard.module.css";
 import {
   ResponsiveContainer,
-  AreaChart,
-  Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   Tooltip,
   CartesianGrid,
 } from "recharts";
-import { FiDownload, FiCalendar, FiEye } from "react-icons/fi";
+import { FiCalendar, FiEye } from "react-icons/fi";
+import Colors from "../../themes/Colors";
 
 type MetricCard = {
   label: string;
@@ -16,6 +19,7 @@ type MetricCard = {
   badge: string;
   icon: "money" | "orders" | "ticket" | "top";
   sub?: string;
+  badgeTone?: "success" | "neutral";
 };
 
 type RecentSale = {
@@ -29,71 +33,213 @@ type RecentSale = {
   status: "CONCLUIDO" | "CANCELADO";
 };
 
-const METRICS: MetricCard[] = [
-  { label: "FATURAMENTO TOTAL", value: "R$ 12.450,00", badge: "+12.5%", icon: "money" },
-  { label: "NÚMERO DE PEDIDOS", value: "432", badge: "+5.2%", icon: "orders" },
-  { label: "TICKET MÉDIO", value: "R$ 28,82", badge: "+2.1%", icon: "ticket" },
-  {
-    label: "PRODUTO MAIS VENDIDO",
-    value: "Bacon Deluxe",
-    sub: "85 unidades este mês",
-    badge: "Top 1",
-    icon: "top",
+const DASHBOARD_MOCK = {
+  day: {
+    metrics: [
+      {
+        label: "VENDAS TOTAIS",
+        value: "128",
+        badge: "+3.1%",
+        icon: "orders",
+        badgeTone: "success",
+      },
+      {
+        label: "FATURAMENTO BRUTO",
+        value: "R$ 6.420",
+        badge: "+1.4%",
+        icon: "money",
+        badgeTone: "success",
+      },
+    ] satisfies MetricCard[],
+    chart: [
+      { name: "08h", value: 12 },
+      { name: "10h", value: 18 },
+      { name: "12h", value: 32 },
+      { name: "14h", value: 26 },
+      { name: "16h", value: 22 },
+      { name: "18h", value: 41 },
+      { name: "20h", value: 33 },
+    ],
+    recent: [
+      {
+        id: "#99102",
+        date: "09 Fev",
+        time: "19:42",
+        client: { initials: "RM" },
+        clientName: "Ricardo Mendes",
+        products: "1x Bacon Deluxe, 1x Batata M",
+        total: "R$ 54,90",
+        status: "CONCLUIDO",
+      },
+      {
+        id: "#99101",
+        date: "09 Fev",
+        time: "19:30",
+        client: { initials: "AS" },
+        clientName: "Amanda Silva",
+        products: "2x Cheese Burger, 2x Coca-Cola",
+        total: "R$ 82,00",
+        status: "CONCLUIDO",
+      },
+      {
+        id: "#99098",
+        date: "09 Fev",
+        time: "19:25",
+        client: { initials: "JO" },
+        clientName: "João Oliveira",
+        products: "1x Smash Onion, 1x Suco Natural",
+        total: "R$ 42,50",
+        status: "CANCELADO",
+      },
+      {
+        id: "#99094",
+        date: "09 Fev",
+        time: "19:10",
+        client: { initials: "CP" },
+        clientName: "Carla P.",
+        products: "3x Combo Kids",
+        total: "R$ 115,00",
+        status: "CONCLUIDO",
+      },
+    ] satisfies RecentSale[],
   },
-];
-
-const CHART_DATA = [
-  { name: "SEG", value: 48 },
-  { name: "TER", value: 64 },
-  { name: "QUA", value: 58 },
-  { name: "QUI", value: 92 },
-  { name: "SEX", value: 24 },
-  { name: "SÁB", value: 96 },
-  { name: "DOM", value: 86 },
-];
-
-const RECENT: RecentSale[] = [
-  {
-    id: "#88421",
-    date: "12 Out",
-    time: "19:42",
-    client: { initials: "RM" },
-    clientName: "Ricardo Mendes",
-    products: "1x Bacon Deluxe, 1x Batata M",
-    total: "R$ 54,90",
-    status: "CONCLUIDO",
+  week: {
+    metrics: [
+      {
+        label: "VENDAS TOTAIS",
+        value: "4,289",
+        badge: "+12.5%",
+        icon: "orders",
+        badgeTone: "success",
+      },
+      {
+        label: "FATURAMENTO BRUTO",
+        value: "R$ 158.240",
+        badge: "+8.2%",
+        icon: "money",
+        badgeTone: "success",
+      },
+   
+    ] satisfies MetricCard[],
+    chart: [
+      { name: "SEG", value: 48 },
+      { name: "TER", value: 64 },
+      { name: "QUA", value: 58 },
+      { name: "QUI", value: 92 },
+      { name: "SEX", value: 24 },
+      { name: "SAB", value: 96 },
+      { name: "DOM", value: 86 },
+    ],
+    recent: [
+      {
+        id: "#88421",
+        date: "12 Out",
+        time: "19:42",
+        client: { initials: "RM" },
+        clientName: "Ricardo Mendes",
+        products: "1x Bacon Deluxe, 1x Batata M",
+        total: "R$ 54,90",
+        status: "CONCLUIDO",
+      },
+      {
+        id: "#88428",
+        date: "12 Out",
+        time: "19:30",
+        client: { initials: "AS" },
+        clientName: "Amanda Silva",
+        products: "2x Cheese Burger, 2x Coca-Cola",
+        total: "R$ 82,00",
+        status: "CONCLUIDO",
+      },
+      {
+        id: "#88419",
+        date: "12 Out",
+        time: "19:25",
+        client: { initials: "JO" },
+        clientName: "Joao Oliveira",
+        products: "1x Smash Onion, 1x Suco Natural",
+        total: "R$ 42,50",
+        status: "CANCELADO",
+      },
+      {
+        id: "#88418",
+        date: "12 Out",
+        time: "19:10",
+        client: { initials: "CP" },
+        clientName: "Carla P.",
+        products: "3x Combo Kids",
+        total: "R$ 115,00",
+        status: "CONCLUIDO",
+      },
+    ] satisfies RecentSale[],
   },
-  {
-    id: "#88428",
-    date: "12 Out",
-    time: "19:30",
-    client: { initials: "AS" },
-    clientName: "Amanda Silva",
-    products: "2x Cheese Burger, 2x Coca-Cola",
-    total: "R$ 82,00",
-    status: "CONCLUIDO",
+  month: {
+    metrics: [
+      {
+        label: "VENDAS TOTAIS",
+        value: "18,902",
+        badge: "+6.8%",
+        icon: "orders",
+        badgeTone: "success",
+      },
+      {
+        label: "FATURAMENTO BRUTO",
+        value: "R$ 612.980",
+        badge: "+4.1%",
+        icon: "money",
+        badgeTone: "success",
+      },
+    ] satisfies MetricCard[],
+    chart: [
+      { name: "SEM 1", value: 210 },
+      { name: "SEM 2", value: 248 },
+      { name: "SEM 3", value: 226 },
+      { name: "SEM 4", value: 268 },
+    ],
+    recent: [
+      {
+        id: "#87021",
+        date: "02 Fev",
+        time: "12:16",
+        client: { initials: "FP" },
+        clientName: "Felipe Pereira",
+        products: "2x Smash Onion, 1x Suco Natural",
+        total: "R$ 96,40",
+        status: "CONCLUIDO",
+      },
+      {
+        id: "#87013",
+        date: "01 Fev",
+        time: "18:03",
+        client: { initials: "LL" },
+        clientName: "Larissa Lima",
+        products: "1x Combo Kids, 1x Refri 2L",
+        total: "R$ 84,90",
+        status: "CONCLUIDO",
+      },
+      {
+        id: "#86988",
+        date: "29 Jan",
+        time: "20:10",
+        client: { initials: "CB" },
+        clientName: "Carlos Braga",
+        products: "2x Cheese Burger",
+        total: "R$ 74,00",
+        status: "CANCELADO",
+      },
+      {
+        id: "#86975",
+        date: "28 Jan",
+        time: "19:22",
+        client: { initials: "DM" },
+        clientName: "Diana M.",
+        products: "1x Bacon Deluxe, 1x Batata G",
+        total: "R$ 68,00",
+        status: "CONCLUIDO",
+      },
+    ] satisfies RecentSale[],
   },
-  {
-    id: "#88419",
-    date: "12 Out",
-    time: "19:25",
-    client: { initials: "JO" },
-    clientName: "João Oliveira",
-    products: "1x Smash Onion, 1x Suco Natural",
-    total: "R$ 42,50",
-    status: "CANCELADO",
-  },
-  {
-    id: "#88418",
-    date: "12 Out",
-    time: "19:10",
-    client: { initials: "CP" },
-    clientName: "Carla P.",
-    products: "3x Combo Kids",
-    total: "R$ 115,00",
-    status: "CONCLUIDO",
-  },
-];
+} as const;
 
 function MetricIcon({ kind }: { kind: MetricCard["icon"] }) {
   if (kind === "money") return <span className={styles.metricIcon}>💰</span>;
@@ -113,34 +259,80 @@ function CustomTooltip({ active, payload, label }: any) {
 }
 
 export function Dashboard() {
+  const [period, setPeriod] = useState<"day" | "week" | "month">("week");
+
+  const periodData = useMemo(() => DASHBOARD_MOCK[period], [period]);
+  const colorVars = {
+    "--bg-primary": Colors.Background.primary,
+    "--surface": Colors.Background.surface,
+    "--surface-muted": Colors.Background.surfaceMuted,
+    "--text-primary": Colors.Texts.primary,
+    "--text-secondary": Colors.Texts.secondary,
+    "--text-muted": Colors.Texts.muted,
+    "--border-default": Colors.Border.default,
+    "--highlight-primary": Colors.Highlight.primary,
+    "--highlight-secondary": Colors.Highlight.secondary,
+    "--status-success": Colors.Status.success,
+    "--status-success-bg": Colors.Status.successBg,
+    "--status-warning": Colors.Status.warning,
+    "--status-warning-bg": Colors.Status.warningBg,
+  } as CSSProperties;
+
   return (
-    <div className={styles.page}>
+    <div className={styles.page} style={colorVars}>
       <div className={styles.top}>
         <div>
-          <h1 className={styles.title}>Relatórios de Vendas</h1>
+          <h1 className={styles.title}>Dashboard Executivo</h1>
           <p className={styles.subtitle}>
-            Acompanhe o desempenho comercial da sua hamburgueria em tempo real.
+            Bem-vindo de volta. Veja o desempenho do periodo selecionado.
           </p>
         </div>
 
         <div className={styles.actions}>
-          <button className={styles.btnGhost} type="button">
-            <FiDownload />
-            Exportar CSV
-          </button>
-          <button className={styles.btnPrimary} type="button">
-            <FiDownload />
-            Exportar PDF
-          </button>
+          <div className={styles.periodTabs}>
+            <button
+              className={`${styles.periodTab} ${
+                period === "day" ? styles.periodTabActive : ""
+              }`}
+              type="button"
+              onClick={() => setPeriod("day")}
+            >
+              Dia
+            </button>
+            <button
+              className={`${styles.periodTab} ${
+                period === "week" ? styles.periodTabActive : ""
+              }`}
+              type="button"
+              onClick={() => setPeriod("week")}
+            >
+              Semana
+            </button>
+            <button
+              className={`${styles.periodTab} ${
+                period === "month" ? styles.periodTabActive : ""
+              }`}
+              type="button"
+              onClick={() => setPeriod("month")}
+            >
+              Mês
+            </button>
+          </div>
         </div>
       </div>
 
       <div className={styles.metrics}>
-        {METRICS.map((m) => (
+        {periodData.metrics.map((m) => (
           <div key={m.label} className={styles.metricCard}>
             <div className={styles.metricHeader}>
               <MetricIcon kind={m.icon} />
-              <span className={styles.metricBadge}>{m.badge}</span>
+              <span
+                className={`${styles.metricBadge} ${
+                  m.badgeTone === "neutral" ? styles.metricBadgeNeutral : ""
+                }`}
+              >
+                {m.badge}
+              </span>
             </div>
 
             <div className={styles.metricLabel}>{m.label}</div>
@@ -160,48 +352,43 @@ export function Dashboard() {
       <div className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
-            <div className={styles.panelTitle}>Desempenho de Vendas</div>
-            <div className={styles.panelSub}>
-              Volume de vendas diário no período selecionado
-            </div>
+            <div className={styles.panelTitle}>Performance de Vendas</div>
+            <div className={styles.panelSub}>Análise comparativa semanal</div>
           </div>
 
-          <div className={styles.tabs}>
-            <button className={styles.tab} type="button">
-              Dia
-            </button>
-            <button className={`${styles.tab} ${styles.tabActive}`} type="button">
-              Semana
-            </button>
-            <button className={styles.tab} type="button">
-              Mês
-            </button>
+          <div className={styles.legend}>
+            <span className={styles.legendItem}>Esta semana</span>
+            <span className={`${styles.legendItem} ${styles.legendMuted}`}>
+              Semana passada
+            </span>
           </div>
         </div>
 
         <div className={styles.chartWrap}>
           <ResponsiveContainer width="100%" height={260}>
-            <AreaChart data={CHART_DATA} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
+            <BarChart data={periodData.chart} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
               <defs>
-                <linearGradient id="fillYellow" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#ffd400" stopOpacity={0.28} />
-                  <stop offset="100%" stopColor="#ffd400" stopOpacity={0} />
+                <linearGradient id="barFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={Colors.Highlight.primary} stopOpacity={0.9} />
+                  <stop offset="100%" stopColor={Colors.Highlight.secondary} stopOpacity={0.9} />
                 </linearGradient>
               </defs>
-              <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-              <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.55)", fontSize: 11 }} axisLine={false} tickLine={false} />
+              <CartesianGrid stroke="rgba(0,0,0,0.06)" vertical={false} />
+              <XAxis
+                dataKey="name"
+                tick={{ fill: Colors.Texts.muted, fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+              />
               <YAxis hide />
               <Tooltip content={<CustomTooltip />} />
-              <Area
-                type="monotone"
+              <Bar
                 dataKey="value"
-                stroke="#ffd400"
-                strokeWidth={3}
-                fill="url(#fillYellow)"
-                dot={false}
-                activeDot={{ r: 6 }}
+                fill="url(#barFill)"
+                radius={[10, 10, 10, 10]}
+                barSize={10}
               />
-            </AreaChart>
+            </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
@@ -232,7 +419,7 @@ export function Dashboard() {
             <div>AÇÕES</div>
           </div>
 
-          {RECENT.map((r) => (
+          {periodData.recent.map((r) => (
             <div key={r.id} className={styles.row}>
               <div className={styles.idCell}>{r.id}</div>
 

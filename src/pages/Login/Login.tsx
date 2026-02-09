@@ -2,11 +2,11 @@ import { useState } from "react";
 import styles from "./Login.module.css";
 import Colors from "../../themes/Colors";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from "react-icons/fi";
-import { IoRestaurant } from "react-icons/io5";
+import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { UserService } from "../../service/User.service";
-
+import logo from "../../assets/logo.png";
 type Props = {
   backgroundImageUrl?: string;
   onSubmit?: (data: {
@@ -20,51 +20,29 @@ export default function Login({
   backgroundImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx5T1LvEjeIQBt-UxZLODbdXIF-tr7NXUvdQ&s",
   onSubmit,
 }: Props) {
-  const [email, setEmail] = useState("admin@maisburguer.com");
-  const [password, setPassword] = useState("admin.maisburguer");
+  const [email, setEmail] = useState("admim@giuseppevidal@gmail.com");
+  const [password, setPassword] = useState("giuseppe@vidal");
   const [remember, setRemember] = useState(true);
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
-
   const { login: contextLogin } = useAuth();
 
   async function login() {
     try {
       const payload = { email, password };
-
-      // const data = await UserService.login(payload);
       const data = await UserService.login(payload);
-
-      // Salva token no storage
       localStorage.setItem("token", data.token);
-
-      // Atualiza estado global
       contextLogin(data.token);
-
-      // Redireciona para dashboard
       navigate("/dashboard");
     } catch (error) {
       alert("Email ou senha inválidos");
     }
   }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     onSubmit?.({ email, password, remember });
   }
-
-  //   async function login() {
-  //   try {
-  //     const fakeToken = "fake-token-dev-123456";
-
-  //     localStorage.setItem("token", fakeToken);
-
-  //     contextLogin(fakeToken);
-
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     alert("Erro no login fake");
-  //   }
-  // }
 
   return (
     <div
@@ -73,63 +51,46 @@ export default function Login({
         {
           ["--bgPrimary" as any]: Colors.Background.primary,
           ["--bgSecondary" as any]: Colors.Background.secondary,
+          ["--bgSidebar" as any]: Colors.Background.sidebar ?? "#1E1B18",
+          ["--surface" as any]: Colors.Background.surface ?? "#FFFFFF",
+          ["--surfaceMuted" as any]:
+            Colors.Background.surfaceMuted ?? "#F0F1F5",
           ["--highlight" as any]: Colors.Highlight.primary,
           ["--textPrimary" as any]: Colors.Texts.primary,
           ["--textSecondary" as any]: Colors.Texts.secondary,
+          ["--textMuted" as any]: Colors.Texts.muted ?? "#9CA3AF",
+          ["--textOnDark" as any]: Colors.Texts.onDark ?? "#FFFFFF",
+          ["--border" as any]: Colors.Border?.default ?? "#E5E7EB",
+          ["--borderLight" as any]: Colors.Border?.light ?? "#F1F1F1",
           ["--heroImage" as any]: `url(${backgroundImageUrl})`,
         } as React.CSSProperties
       }
     >
       <div className={styles.left}>
-        <div className={styles.heroBg} />
-        <div className={styles.heroOverlay} />
-
+        <div className={styles.leftBg} />
+        <div className={styles.leftGlow} />
         <div className={styles.leftInner}>
-          <div className={styles.brandRow}>
-            <span className={styles.brandMark}>
-              <IoRestaurant color="#000" size={22} />
-            </span>
-            <span className={styles.brandName}>MAIS BURGUER</span>
-          </div>
-
-          <h1 className={styles.heroTitle}>
-            CONTROLE
+          <img src={logo} alt="Logo" className={styles.logoImg} />
+          <div className={styles.leftTitle}>Giuseppe Vidal</div>
+          <div className={styles.leftDesc}>
+            Gestão moderna de inventário e vendas
             <br />
-            SEU
-            <br />
-            <span className={styles.heroTitleHighlight}>IMPÉRIO</span>
-          </h1>
-
-          <p className={styles.heroDesc}>
-            Gerencie pedidos, estoque e performance em tempo real com a
-            plataforma administrativa mais robusta do setor.
-          </p>
-
-          <div className={styles.statsRow}>
-            <div className={styles.statItem}>
-              <div className={styles.statValue}>2.4k+</div>
-              <div className={styles.statLabel}>PEDIDOS HOJE</div>
-            </div>
-            <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <div className={styles.statValue}>98%</div>
-              <div className={styles.statLabel}>EFICIÊNCIA</div>
-            </div>
+            com inteligência e simplicidade.
           </div>
         </div>
       </div>
 
       <div className={styles.right}>
-        <div className={styles.loginWrap}>
-          <div className={styles.panelHeader}>
-            <div className={styles.panelTitle}>Admin - Login de Acesso</div>
-            <div className={styles.panelSub}>
-              Bem-vindo de volta ao centro de comando.
+        <div className={styles.formWrap}>
+          <div className={styles.header}>
+            <div className={styles.h1}>Bem-vindo</div>
+            <div className={styles.sub}>
+              Acesse sua conta para gerenciar seu negócio.
             </div>
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>
-            <label className={styles.label}>E-mail Corporativo</label>
+            <label className={styles.label}>E-mail</label>
             <div className={styles.inputWrap}>
               <span className={styles.inputIcon} aria-hidden>
                 <FiMail />
@@ -138,15 +99,19 @@ export default function Login({
                 className={styles.input}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="seuemail@empresa.com"
+                placeholder="exemplo@pinha.com.br"
                 type="email"
                 autoComplete="email"
               />
             </div>
 
-            <label className={styles.label} style={{ marginTop: 18 }}>
-              Senha de Segurança
-            </label>
+            <div className={styles.rowBetweenTop}>
+              <label className={styles.label}>Senha</label>
+              <button type="button" className={styles.forgot}>
+                Esqueci minha senha
+              </button>
+            </div>
+
             <div className={styles.inputWrap}>
               <span className={styles.inputIcon} aria-hidden>
                 <FiLock />
@@ -168,36 +133,31 @@ export default function Login({
                 {showPass ? <FiEyeOff /> : <FiEye />}
               </button>
             </div>
-
-            <div className={styles.rowBetween}>
-              <label className={styles.check}>
-                <input
-                  type="checkbox"
-                  checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
-                />
-                <span>Manter conectado</span>
-              </label>
-
-              <button type="button" className={styles.linkBtn}>
-                Esqueci minha senha
-              </button>
-            </div>
+            <label className={styles.check}>
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+              />
+              <span>Manter conectado por 30 dias</span>
+            </label>
 
             <button
               className={styles.submit}
               type="submit"
               onClick={() => login()}
             >
-              ENTRAR NO PAINEL
+              ENTRAR
               <span className={styles.submitIcon} aria-hidden>
                 <FiArrowRight />
               </span>
             </button>
 
-            <div className={styles.hr} />
+            <div className={styles.support}>
+              Ainda não tem acesso? <span>Fale com o suporte</span>
+            </div>
 
-            <div className={styles.secureLabel}>SISTEMA DE GESTÃO SEGURA</div>
+            <div className={styles.copy}>© 2026 GIUSEPPE VIDAL.</div>
           </form>
         </div>
       </div>

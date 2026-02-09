@@ -1,10 +1,11 @@
 .page {
   width: 100%;
-  padding: 18px;
-  height: 80vh;
+  padding: 22px 24px 18px;
+  height: 95vh;
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  background-color: var(--bg-primary);
 }
 
 .top {
@@ -12,20 +13,20 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .title {
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 22px;
+  color: var(--text-primary);
+  font-size: 24px;
   font-weight: 800;
   margin: 0;
 }
 
 .subtitle {
   margin: 6px 0 0 0;
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
 }
 
 .actions {
@@ -34,49 +35,48 @@
   gap: 10px;
 }
 
-.btnGhost {
-  height: 40px;
-  padding: 0 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 700;
-  font-size: 12px;
+.periodTabs {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
+  padding: 4px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
+  gap: 6px;
 }
 
-.btnPrimary {
-  height: 40px;
+.periodTab {
+  height: 30px;
   padding: 0 14px;
   border-radius: 12px;
   border: none;
-  background: #ffd400;
-  color: #111;
-  font-weight: 900;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 700;
   font-size: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   cursor: pointer;
-  box-shadow: 0 14px 26px rgba(255, 212, 0, 0.18);
+}
+
+.periodTabActive {
+  background: var(--highlight-primary);
+  color: #1b140e;
+  box-shadow: 0 6px 14px rgba(242, 182, 50, 0.35);
 }
 
 .metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(180px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  gap: 16px;
   margin: 14px 0;
 }
 
 .metricCard {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 16px 30px rgba(17, 24, 39, 0.08);
 }
 
 .metricHeader {
@@ -87,13 +87,15 @@
 }
 
 .metricIcon {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 212, 0, 0.12);
+  background: var(--highlight-primary);
+  color: #1b140e;
+  font-size: 18px;
 }
 
 .metricBadge {
@@ -101,44 +103,50 @@
   font-weight: 900;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(0, 200, 83, 0.12);
-  color: #00c853;
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
+
+.metricBadgeNeutral {
+  background: var(--surface-muted);
+  color: var(--text-muted);
 }
 
 .metricLabel {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 10px;
-  font-weight: 900;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.16em;
 }
 
 .metricValue {
   margin-top: 6px;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 18px;
-  font-weight: 900;
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 700  ;
 }
 
 .metricValueSmall {
   margin-top: 6px;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 16px;
-  font-weight: 900;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 100;
 }
 
 .metricSub {
   margin-top: 4px;
-  color: rgba(255, 212, 0, 0.8);
+  color: var(--text-secondary);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .panel {
   margin-top: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 18px 36px rgba(17, 24, 39, 0.08);
 }
 
 .panelHeader {
@@ -149,77 +157,87 @@
 }
 
 .panelTitle {
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 900;
-  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 15px;
 }
 
 .panelSub {
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 11px;
+  color: var(--text-secondary);
+  font-size: 12px;
   margin-top: 2px;
 }
 
-.tabs {
+.legend {
   display: inline-flex;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  padding: 3px;
-  gap: 3px;
-}
-
-.tab {
-  height: 28px;
-  padding: 0 12px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 900;
+  align-items: center;
+  gap: 14px;
   font-size: 11px;
-  border-radius: 10px;
-  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-secondary);
 }
 
-.tabActive {
-  background: #ffd400;
-  color: #111;
+.legendItem {
+  position: relative;
+  padding-left: 14px;
+}
+
+.legendItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--highlight-primary);
+  transform: translateY(-50%);
+}
+
+.legendMuted {
+  color: var(--text-muted);
+}
+
+.legendMuted::before {
+  background: var(--border-default);
 }
 
 .chartWrap {
-  margin-top: 10px;
-  border-radius: 14px;
+  margin-top: 12px;
+  border-radius: 16px;
   overflow: hidden;
+  background: var(--surface);
 }
 
 .tooltip {
-  background: #101010;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
   padding: 10px 12px;
-  color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+  color: var(--text-primary);
+  box-shadow: 0 16px 30px rgba(17, 24, 39, 0.12);
 }
 
 .tooltipTitle {
   font-size: 11px;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-muted);
   margin-bottom: 6px;
 }
 
 .tooltipValue {
   font-size: 12px;
   font-weight: 900;
-  color: #ffd400;
+  color: var(--highlight-primary);
 }
 
 .tablePanel {
   margin-top: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 16px 30px rgba(17, 24, 39, 0.08);
 }
 
 .tableHeader {
@@ -231,9 +249,9 @@
 }
 
 .tableTitle {
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 900;
-  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 14px;
 }
 
 .tableActions {
@@ -245,10 +263,10 @@
   height: 34px;
   padding: 0 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.8);
-  font-weight: 800;
+  border: 1px solid var(--border-default);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-weight: 700;
   font-size: 12px;
   display: inline-flex;
   align-items: center;
@@ -259,7 +277,7 @@
 .table {
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-default);
 }
 
 .row {
@@ -268,33 +286,33 @@
   gap: 12px;
   align-items: center;
   padding: 12px 12px;
-  background: rgba(0, 0, 0, 0.18);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-default);
 }
 
 .thead {
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.55);
-  font-weight: 900;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-weight: 500;
   font-size: 10px;
   letter-spacing: 0.12em;
 }
 
 .idCell {
-  color: #ffd400;
-  font-weight: 900;
+  color: var(--highlight-primary);
+  font-weight: 500;
 }
 
 .dateCell {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary);
   font-weight: 800;
   font-size: 12px;
 }
 
 .muted {
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .clientCell {
@@ -307,31 +325,31 @@
   width: 28px;
   height: 28px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-muted);
+  border: 1px solid var(--border-default);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+  color: var(--text-secondary);
   font-size: 11px;
 }
 
 .clientName {
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  color: var(--text-primary);
   font-size: 12px;
 }
 
 .productsCell {
-  color: rgba(255, 255, 255, 0.55);
-  font-weight: 700;
+  color: var(--text-secondary);
+  font-weight: 500;
   font-size: 12px;
 }
 
 .totalCell {
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  color: var(--text-primary);
   font-size: 12px;
 }
 
@@ -342,10 +360,10 @@
   padding: 5px 10px;
   border-radius: 999px;
   font-size: 10px;
-  font-weight: 900;
-  background: rgba(0, 200, 83, 0.12);
-  color: #00c853;
-  border: 1px solid rgba(0, 200, 83, 0.18);
+  font-weight: 500;
+  background: var(--status-success-bg);
+  color: var(--status-success);
+  border: 1px solid rgba(45, 190, 120, 0.22);
 }
 
 .statusBad {
@@ -355,10 +373,10 @@
   padding: 5px 10px;
   border-radius: 999px;
   font-size: 10px;
-  font-weight: 900;
-  background: rgba(239, 68, 68, 0.12);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.18);
+  font-weight: 500;
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+  border: 1px solid rgba(231, 166, 23, 0.22);
 }
 
 .actionsCell {
@@ -370,9 +388,9 @@
   width: 34px;
   height: 34px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--border-default);
+  background: var(--surface);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -395,15 +413,15 @@
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 900;
+  border: 1px solid var(--border-default);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-weight: 500;
   cursor: pointer;
 }
 
 .pageBtnActive {
-  background: #ffd400;
-  color: #111;
+  background: var(--highlight-primary);
+  color: #1b140e;
   border: none;
 }

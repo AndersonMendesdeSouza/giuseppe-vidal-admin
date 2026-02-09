@@ -1,23 +1,36 @@
 const Colors = {
   Background: {
-    primary: "#1A1A1A",
-    secondary: "#121212ff",
+    primary: "#F5F6FA",
+    secondary: "#FFFFFF",
+    sidebar: "#1E1B18",
+    surface: "#FFFFFF",
+    surfaceMuted: "#F0F1F5",
   },
 
   Highlight: {
-    primary: "#FFD700",
+    primary: "#FFC83D",
+    secondary: "#FFE8A3",
   },
 
   Texts: {
-    primary: "#FFFFFF",
-    secondary: "#CCCCCC",
+    primary: "#1F2937",
+    secondary: "#6B7280",
+    muted: "#9CA3AF",
+    onDark: "#FFFFFF",
+  },
+
+  Border: {
+    default: "#E5E7EB",
+    light: "#F1F1F1",
   },
 
   Status: {
-    bestSellerBg: "rgba(249, 0, 0, 0.88)",
-    bestSellerBorder: "rgba(214, 67, 67, 0.95)",
-    bestSellerText: "rgba(255, 255, 255, 1)",
-    bestSellerGlow: "rgba(214, 67, 67, 0.35)",
+    success: "#22C55E",
+    successBg: "#DCFCE7",
+    warning: "#F59E0B",
+    warningBg: "#FEF3C7",
+    info: "#3B82F6",
+    infoBg: "#DBEAFE",
   },
 };
 

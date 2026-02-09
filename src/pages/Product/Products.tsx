@@ -1,6 +1,13 @@
+import type { CSSProperties } from "react";
 import styles from "./Product.module.css";
 import { useEffect, useMemo, useState } from "react";
-import { FiChevronLeft, FiChevronRight, FiPlus } from "react-icons/fi";
+import {
+  FiChevronLeft,
+  FiChevronRight,
+  FiFilter,
+  FiPlus,
+  FiSearch,
+} from "react-icons/fi";
 import ProductCard from "../../components/ProductCard";
 import { CgFileAdd } from "react-icons/cg";
 import type { CategoryKey } from "../../types/Product-type";
@@ -8,6 +15,7 @@ import { ProductService } from "../../service/Product.service";
 import type { ProductResponse } from "../../dtos/response/product-response.dto";
 import { ProductCategoryEnum } from "../../dtos/enums/product-category.enum";
 import { useNavigate } from "react-router-dom";
+import Colors from "../../themes/Colors";
 
 export function Products() {
   const [activeCat, setActiveCat] = useState<CategoryKey>("all");
@@ -15,6 +23,7 @@ export function Products() {
   const [products, setProducts] = useState<ProductResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const categoryFromKey = (key: CategoryKey) => {
     switch (key) {
@@ -32,11 +41,18 @@ export function Products() {
   };
 
   const filtered = useMemo(() => {
-    if (activeCat === "all") return products;
-    const category = categoryFromKey(activeCat);
-    if (!category) return products;
-    return products.filter((p) => p.category === category);
-  }, [activeCat, products]);
+    let current = products;
+    if (activeCat !== "all") {
+      const category = categoryFromKey(activeCat);
+      if (category) {
+        current = current.filter((p) => p.category === category);
+      }
+    }
+
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) return current;
+    return current.filter((p) => p.name.toLowerCase().includes(trimmed));
+  }, [activeCat, products, query]);
 
   const pageSize = 4;
   const total = filtered.length;
@@ -72,6 +88,32 @@ export function Products() {
     [counts],
   );
 
+  const totalValue = useMemo(() => {
+    return products.reduce((sum, p) => sum + Number(p.price || 0), 0);
+  }, [products]);
+
+  const lowStock = useMemo(() => {
+    return products.filter((p) => p.stockEnabled && (p.stock ?? 0) <= 5).length;
+  }, [products]);
+
+  const categoryTotal = useMemo(() => {
+    return new Set(products.map((p) => p.category)).size;
+  }, [products]);
+
+  const colorVars = {
+    "--bg-primary": Colors.Background.primary,
+    "--surface": Colors.Background.surface,
+    "--surface-muted": Colors.Background.surfaceMuted,
+    "--text-primary": Colors.Texts.primary,
+    "--text-secondary": Colors.Texts.secondary,
+    "--text-muted": Colors.Texts.muted,
+    "--border-default": Colors.Border.default,
+    "--highlight-primary": Colors.Highlight.primary,
+    "--highlight-secondary": Colors.Highlight.secondary,
+    "--status-warning": Colors.Status.warning,
+    "--status-warning-bg": Colors.Status.warningBg,
+  } as CSSProperties;
+
   // const getPrimaryImageUrl = (images: ImageResponse[]) => {
   //   const primary = (images || []).find((img: any) => img?.isPrimary);
   //   return primary?.url || (images?.[0] as any)?.url || "";
@@ -96,49 +138,85 @@ export function Products() {
   }, []);
 
   return (
-    <div className={styles.page}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 10,
-        }}
-      >
-        <div className={styles.tabs}>
-          {CATEGORIES.map((c) => (
-            <button
-              key={c.key}
-              type="button"
-              onClick={() => {
-                setActiveCat(c.key);
-                setPage(1);
-              }}
-              className={`${styles.tab} ${activeCat === c.key ? styles.tabActive : ""}`}
-            >
-              {c.label}
-            </button>
-          ))}
+    <div className={styles.page} style={colorVars}>
+      <div className={styles.header}>
+        <div>
+          <h1 className={styles.title}>Gestao de Produtos</h1>
         </div>
 
-        <button
-          style={{
-            width: 150,
-            height: 40,
-            borderRadius: 10,
-            backgroundColor: "#ffd400",
-            color: "#000",
-            fontWeight: "600",
-            border: "none",
-            alignItems: "center",
-            display: "flex",
-            gap: 5,
-            justifyContent: "center",
-          }}
-          onClick={() => navigate("/product-details")}
-        >
-          <CgFileAdd size={20} />
-          Novo Produto
-        </button>
+        <div className={styles.headerActions}>
+          <button
+            className={styles.addBtn}
+            type="button"
+            onClick={() => navigate("/product-details")}
+          >
+            <CgFileAdd size={18} />
+            Cadastrar novo produto
+          </button>
+        </div>
+      </div>
+
+      <div className={styles.stats}>
+        <div className={styles.statCard}>
+          <div className={styles.statLabel}>TOTAL DE PRODUTOS</div>
+          <div className={styles.statValue}>{counts.all.toLocaleString("pt-BR")}</div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statLabel}>ESTOQUE BAIXO</div>
+          <div className={`${styles.statValue} ${styles.statValueWarn}`}>
+            {lowStock}
+          </div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statLabel}>VALOR TOTAL</div>
+          <div className={styles.statValue}>
+            {totalValue.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </div>
+        </div>
+        <div className={styles.statCard}>
+          <div className={styles.statLabel}>CATEGORIAS</div>
+          <div className={styles.statValue}>{categoryTotal}</div>
+        </div>
+      </div>
+
+      <div className={styles.filters}>
+        <div className={styles.search}>
+          <FiSearch className={styles.searchIcon} />
+          <input
+            className={styles.searchInput}
+            type="text"
+            placeholder="Buscar produtos..."
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setPage(1);
+            }}
+          />
+        </div>
+
+        <div className={styles.filterActions}>
+          <select
+            className={styles.categorySelect}
+            value={activeCat}
+            onChange={(event) => {
+              setActiveCat(event.target.value as CategoryKey);
+              setPage(1);
+            }}
+          >
+            {CATEGORIES.map((c) => (
+              <option key={c.key} value={c.key}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+          <button className={styles.filterBtn} type="button">
+            <FiFilter />
+            Filtros
+          </button>
+        </div>
       </div>
 
       {loading ? (

@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./ProductDetails.module.css";
-import { FiEye, FiTrash2, FiX } from "react-icons/fi";
+import { FiEye, FiTrash2 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router-dom";
-import Colors from "../../themes/Colors";
 import { BiTrash } from "react-icons/bi";
 import { ProductService } from "../../service/Product.service";
 import type { ProductResponse } from "../../dtos/response/product-response.dto";
@@ -17,12 +16,6 @@ type Media = {
   file?: File;
 };
 
-type Addon = {
-  id: string;
-  name: string;
-  price: number;
-};
-
 type FieldErrors = {
   name?: string;
   description?: string;
@@ -33,18 +26,8 @@ type FieldErrors = {
   stock?: string;
 };
 
-function currencyBRL(v: number) {
-  return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
-const MOCK_ADDONS: Addon[] = [
-  { id: "a1", name: "Bacon Extra Crispy", price: 6.0 },
-  { id: "a2", name: "Cheddar em Dobro", price: 4.5 },
-];
-
 export function ProductsDetails() {
   const [media, setMedia] = useState<Media[]>([]);
-  const [addons, setAddons] = useState<Addon[]>(MOCK_ADDONS);
   const [product, setProduct] = useState<ProductResponse | null>(null);
   const navigate = useNavigate();
 
@@ -53,6 +36,13 @@ export function ProductsDetails() {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [sku, setSku] = useState("");
+  const [brand, setBrand] = useState("");
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [supplier, setSupplier] = useState("");
+  const [collection, setCollection] = useState("");
+  const [notes, setNotes] = useState("");
   const [category, setCategory] = useState<ProductCategoryEnum>(
     ProductCategoryEnum.FOOD,
   );
@@ -91,6 +81,13 @@ export function ProductsDetails() {
         setMedia([]);
         setName("");
         setDescription("");
+        setSku("");
+        setBrand("");
+        setColor("");
+        setSize("");
+        setSupplier("");
+        setCollection("");
+        setNotes("");
         setCategory(ProductCategoryEnum.FOOD);
         setPrice("");
         setPromoPrice("");
@@ -116,6 +113,13 @@ export function ProductsDetails() {
 
       setName(data.name || "");
       setDescription(data.description || "");
+      setSku(String((data as any)?.sku ?? ""));
+      setBrand(String((data as any)?.brand ?? ""));
+      setColor(String((data as any)?.color ?? ""));
+      setSize(String((data as any)?.size ?? ""));
+      setSupplier(String((data as any)?.supplier ?? ""));
+      setCollection(String((data as any)?.collection ?? ""));
+      setNotes(String((data as any)?.notes ?? ""));
       setCategory(
         (data.category as ProductCategoryEnum) || ProductCategoryEnum.FOOD,
       );
@@ -142,10 +146,6 @@ export function ProductsDetails() {
 
   const removeMedia = (mid: string) => {
     setMedia((prev) => prev.filter((m) => m.id !== mid));
-  };
-
-  const removeAddon = (aid: string) => {
-    setAddons((prev) => prev.filter((a) => a.id !== aid));
   };
 
   function deletFood(pid: string | undefined): void {
@@ -274,18 +274,7 @@ export function ProductsDetails() {
       : styles.select;
 
   return (
-    <div
-      className={styles.page}
-      style={
-        {
-          ["--bgPrimary" as any]: Colors.Background.primary,
-          ["--bgSecondary" as any]: Colors.Background.secondary,
-          ["--highlight" as any]: Colors.Highlight.primary,
-          ["--textPrimary" as any]: Colors.Texts.primary,
-          ["--textSecondary" as any]: Colors.Texts.secondary,
-        } as React.CSSProperties
-      }
-    >
+    <div className={styles.page}>
       <input
         ref={fileInputRef}
         type="file"
@@ -308,23 +297,23 @@ export function ProductsDetails() {
             </button>
 
             <h1 className={styles.title}>
-              {isEdit ? "EDITAR PRODUTO" : "CRIAR PRODUTO"}
+              {isEdit ? "Editar produto" : "Cadastro de novo produto"}
             </h1>
           </div>
           <p className={styles.subtitle}>
             {isEdit
-              ? "Atualize as informações, mídias e valores do seu produto."
-              : "Preencha as informações, mídias e valores do seu produto."}
+              ? "Atualize as informações e preços do produto."
+              : "Preencha as informações e preços do produto."}
           </p>
         </div>
 
         <div className={styles.topActions}>
           <button className={styles.btnGhost} type="button">
             <FiEye />
-            Ver no App
+            Visualizar
           </button>
           <button className={styles.discard} type="button">
-            Descartar
+            Cancelar
           </button>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <button
@@ -334,7 +323,7 @@ export function ProductsDetails() {
               disabled={saving}
             >
               <span className={styles.check}>✓</span>
-              {isEdit ? "SALVAR ALTERAÇÕES" : "CRIAR PRODUTO"}
+              {isEdit ? "Salvar alteracoes" : "Salvar produto"}
             </button>
 
             {isEdit && (
@@ -344,52 +333,17 @@ export function ProductsDetails() {
                 onClick={() => deletFood(product?.id)}
               >
                 <BiTrash size={13} />
-                Excluir do Cardápio
+                Excluir produto
               </button>
             )}
           </div>
         </div>
       </div>
-
-      <div className={styles.sectionLabel}>
-        <span className={styles.sectionDot} />
-        GALERIA DE IMAGENS
-      </div>
-
-      <div className={styles.gallery}>
-        {media.map((m) => (
-          <div
-            key={m.id}
-            className={`${styles.mediaCard} ${
-              m.id === primaryId ? styles.mediaCardActive : ""
-            }`}
-          >
-            {m.id === primaryId ? (
-              <div className={styles.primaryTag}>PRINCIPAL</div>
-            ) : null}
-
-            <img src={m.url} alt="" className={styles.mediaImg} />
-
-            <div className={styles.mediaActions}>
-              <button
-                className={styles.mediaBtn}
-                type="button"
-                onClick={() => setPrimary(m.id)}
-                aria-label="Definir como principal"
-              >
-                ★
-              </button>
-              <button
-                className={styles.mediaBtn}
-                type="button"
-                onClick={() => removeMedia(m.id)}
-                aria-label="Excluir"
-              >
-                <FiTrash2 />
-              </button>
-            </div>
-          </div>
-        ))}
+      <div className={styles.container}>
+        <div className={styles.sectionLabel}>
+          <span className={styles.sectionDot} />
+          FOTOS DO PRODUTO
+        </div>
 
         <button
           className={styles.uploadCard}
@@ -397,232 +351,315 @@ export function ProductsDetails() {
           onClick={onPickFilesClick}
         >
           <div className={styles.uploadIcon}>+</div>
-          <div className={styles.uploadText}>Upload mais fotos</div>
+          <div className={styles.uploadText}>Clique para enviar imagens</div>
+          <div className={styles.uploadHint}>PNG ou JPG ate 5MB</div>
         </button>
-      </div>
 
-      <div className={styles.grid}>
-        <div className={styles.panel}>
-          <div className={styles.panelHeader}>
-            <span className={styles.panelIcon}>📄</span>
-            <span className={styles.panelTitle}>Informações Principais</span>
-          </div>
-
-          <div className={styles.form}>
-            <div className={styles.field} data-field="name">
-              <label className={styles.label}>NOME DO PRODUTO</label>
-              <input
-                className={inputErrorClass("name")}
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  if (submitted)
-                    setErrors((p) => ({ ...p, name: undefined }));
-                }}
-              />
-              {submitted && errors.name ? (
-                <div className={styles.fieldError}>{errors.name}</div>
+        <div className={styles.gallery}>
+          {media.map((m) => (
+            <div
+              key={m.id}
+              className={`${styles.mediaCard} ${
+                m.id === primaryId ? styles.mediaCardActive : ""
+              }`}
+            >
+              {m.id === primaryId ? (
+                <div className={styles.primaryTag}>Principal</div>
               ) : null}
-            </div>
 
-            <div className={styles.row2}>
-              <div className={styles.field} data-field="category">
-                <label className={styles.label}>CATEGORIA</label>
-                <select
-                  className={selectErrorClass("category")}
-                  value={category}
-                  onChange={(e) => {
-                    setCategory(e.target.value as ProductCategoryEnum);
-                    if (submitted)
-                      setErrors((p) => ({ ...p, category: undefined }));
-                  }}
+              <img src={m.url} alt="" className={styles.mediaImg} />
+
+              <div className={styles.mediaActions}>
+                <button
+                  className={styles.mediaBtn}
+                  type="button"
+                  onClick={() => setPrimary(m.id)}
+                  aria-label="Definir como principal"
                 >
-                  <option value={ProductCategoryEnum.FOOD}>Comidas</option>
-                  <option value={ProductCategoryEnum.DRINK}>Bebidas</option>
-                  <option value={ProductCategoryEnum.ADDON}>
-                    Acompanhamentos
-                  </option>
-                  <option value={ProductCategoryEnum.DESSERT}>
-                    Sobremesas
-                  </option>
-                </select>
-                {submitted && errors.category ? (
-                  <div className={styles.fieldError}>{errors.category}</div>
-                ) : null}
-              </div>
-
-              <div className={styles.field}>
-                <label className={styles.label}>STATUS</label>
-                <div className={styles.availability}>
-                  <button
-                    type="button"
-                    className={`${styles.pill} ${
-                      isActive === ProductStatusEnum.ACTIVED
-                        ? styles.pillOn
-                        : styles.pillOff
-                    }`}
-                    aria-label="Disponível"
-                    onClick={() => alterationIsActive()}
-                  >
-                    <span className={styles.pillDot} />
-                  </button>
-                  <span className={styles.disp}>DISP.</span>
-                </div>
+                  ★
+                </button>
+                <button
+                  className={styles.mediaBtn}
+                  type="button"
+                  onClick={() => removeMedia(m.id)}
+                  aria-label="Excluir"
+                >
+                  <FiTrash2 />
+                </button>
               </div>
             </div>
-
-            <div className={styles.field} data-field="description">
-              <label className={styles.label}>DESCRIÇÃO DETALHADA</label>
-              <textarea
-                className={textareaErrorClass("description")}
-                value={description}
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                  if (submitted)
-                    setErrors((p) => ({ ...p, description: undefined }));
-                }}
-              />
-              {submitted && errors.description ? (
-                <div className={styles.fieldError}>{errors.description}</div>
-              ) : null}
-            </div>
-          </div>
+          ))}
         </div>
 
         <div className={styles.panel}>
-          <div className={styles.panelHeader}>
-            <span className={styles.panelIcon}>💳</span>
-            <span className={styles.panelTitle}>Precificação</span>
-          </div>
-
-          <div className={styles.form}>
-            <div className={styles.field} data-field="price">
-              <label className={styles.label}>PREÇO BASE</label>
-              <div className={styles.moneyInput}>
-                <span className={styles.moneyPrefix}>R$</span>
-                <input
-                  className={inputErrorClass("price")}
-                  value={price}
-                  onChange={(e) => {
-                    setPrice(e.target.value);
-                    if (submitted)
-                      setErrors((p) => ({ ...p, price: undefined }));
-                  }}
-                />
-              </div>
-              {submitted && errors.price ? (
-                <div className={styles.fieldError}>{errors.price}</div>
-              ) : null}
+            <div className={styles.panelHeader}>
+              <span className={styles.panelIcon}>📄</span>
+              <span className={styles.panelTitle}>Informacoes basicas</span>
             </div>
 
-            <div className={styles.field} data-field="promoPrice">
-              <label className={styles.label}>PREÇO PROMOCIONAL</label>
-              <div className={styles.moneyInput}>
-                <span className={styles.moneyPrefix}>R$</span>
+            <div className={styles.form}>
+              <div className={styles.field} data-field="name">
+                <label className={styles.label}>NOME DO PRODUTO</label>
                 <input
-                  className={
-                    submitted && errors.promoPrice
-                      ? `${styles.input} ${styles.inputMuted} ${styles.inputError}`
-                      : `${styles.input} ${styles.inputMuted}`
-                  }
-                  value={promoPrice}
+                  className={inputErrorClass("name")}
+                  value={name}
                   onChange={(e) => {
-                    setPromoPrice(e.target.value);
+                    setName(e.target.value);
                     if (submitted)
-                      setErrors((p) => ({ ...p, promoPrice: undefined }));
+                      setErrors((p) => ({ ...p, name: undefined }));
                   }}
                 />
-              </div>
-              {submitted && errors.promoPrice ? (
-                <div className={styles.fieldError}>{errors.promoPrice}</div>
-              ) : (
-                <div className={styles.help}>
-                  Deixe em branco para não aplicar promoção.
-                </div>
-              )}
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label}>INVENTÁRIO</label>
-              <div className={styles.inventory}>
-                <span className={styles.inventoryLabel}>
-                  Controle de estoque
-                </span>
-                <div className={styles.availability}>
-                  <button
-                    type="button"
-                    className={`${styles.pill} ${
-                      stockEnabled ? styles.pillOn : styles.pillOff
-                    }`}
-                    aria-label="Disponível"
-                    onClick={() => alterationStockEnabled()}
-                  >
-                    <span className={styles.pillDot} />
-                  </button>
-                  <span className={styles.disp}>DISP.</span>
-                </div>
-              </div>
-            </div>
-
-            {stockEnabled && (
-              <div className={styles.field} data-field="stock">
-                <label className={styles.label}>ESTOQUE</label>
-                <input
-                  className={inputErrorClass("stock")}
-                  value={stock}
-                  onChange={(e) => {
-                    setStock(e.target.value);
-                    if (submitted)
-                      setErrors((p) => ({ ...p, stock: undefined }));
-                  }}
-                />
-                {submitted && errors.stock ? (
-                  <div className={styles.fieldError}>{errors.stock}</div>
+                {submitted && errors.name ? (
+                  <div className={styles.fieldError}>{errors.name}</div>
                 ) : null}
               </div>
-            )}
-          </div>
-        </div>
-      </div>
 
-      <div className={styles.bottomBar}></div>
+              <div className={styles.row2}>
+                <div className={styles.field} data-field="category">
+                  <label className={styles.label}>CATEGORIA</label>
+                  <select
+                    className={selectErrorClass("category")}
+                    value={category}
+                    onChange={(e) => {
+                      setCategory(e.target.value as ProductCategoryEnum);
+                      if (submitted)
+                        setErrors((p) => ({ ...p, category: undefined }));
+                    }}
+                  >
+                    <option value={ProductCategoryEnum.FOOD}>Camisetas</option>
+                    <option value={ProductCategoryEnum.DRINK}>Calcas</option>
+                    <option value={ProductCategoryEnum.ADDON}>Vestidos</option>
+                    <option value={ProductCategoryEnum.DESSERT}>
+                      Acessorios
+                    </option>
+                  </select>
+                  {submitted && errors.category ? (
+                    <div className={styles.fieldError}>{errors.category}</div>
+                  ) : null}
+                </div>
 
-      <div className={styles.addonsPanel}>
-        <div className={styles.addonsHeader}>
-          <div className={styles.addonsTitle}>
-            <span className={styles.addonDot}>+</span>
-            Adicionais
-          </div>
-          <button className={styles.linkNew} type="button">
-            + Vincular Novo
-          </button>
-        </div>
-
-        <div className={styles.addonsList}>
-          {addons.map((a) => (
-            <div key={a.id} className={styles.addonChip}>
-              <div className={styles.addonLeft}>
-                <span className={styles.addonIcon}>🍽️</span>
-                <div>
-                  <div className={styles.addonName}>{a.name}</div>
-                  <div className={styles.addonPrice}>
-                    {currencyBRL(a.price)}
+                <div className={styles.field}>
+                  <label className={styles.label}>STATUS</label>
+                  <div className={styles.availability}>
+                    <button
+                      type="button"
+                      className={`${styles.pill} ${
+                        isActive === ProductStatusEnum.ACTIVED
+                          ? styles.pillOn
+                          : styles.pillOff
+                      }`}
+                      aria-label="Disponivel"
+                      onClick={() => alterationIsActive()}
+                    >
+                      <span className={styles.pillDot} />
+                    </button>
+                    <span className={styles.disp}>DISP.</span>
                   </div>
                 </div>
               </div>
 
-              <button
-                className={styles.addonRemove}
-                type="button"
-                onClick={() => removeAddon(a.id)}
-                aria-label="Remover"
-              >
-                <FiX />
-              </button>
+              <div className={styles.field} data-field="description">
+                <label className={styles.label}>DESCRICAO DETALHADA</label>
+                <textarea
+                  className={textareaErrorClass("description")}
+                  value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                    if (submitted)
+                      setErrors((p) => ({ ...p, description: undefined }));
+                  }}
+                />
+                {submitted && errors.description ? (
+                  <div className={styles.fieldError}>{errors.description}</div>
+                ) : null}
+              </div>
             </div>
-          ))}
+          </div>
+
+        <div className={styles.panelGrid}>
+          <div className={styles.panel}>
+              <div className={styles.panelHeader}>
+                <span className={styles.panelIcon}>🏷️</span>
+                <span className={styles.panelTitle}>Atributos</span>
+              </div>
+
+              <div className={styles.form}>
+                <div className={styles.row2}>
+                  <div className={styles.field}>
+                    <label className={styles.label}>SKU</label>
+                    <input
+                      className={styles.input}
+                      value={sku}
+                      onChange={(e) => setSku(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label className={styles.label}>MARCA</label>
+                    <input
+                      className={styles.input}
+                      value={brand}
+                      onChange={(e) => setBrand(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.row2}>
+                  <div className={styles.field}>
+                    <label className={styles.label}>COR</label>
+                    <input
+                      className={styles.input}
+                      value={color}
+                      onChange={(e) => setColor(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label className={styles.label}>TAMANHO</label>
+                    <input
+                      className={styles.input}
+                      value={size}
+                      onChange={(e) => setSize(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div className={styles.panel}>
+              <div className={styles.panelHeader}>
+                <span className={styles.panelIcon}>💳</span>
+                <span className={styles.panelTitle}>Preco e estoque</span>
+              </div>
+
+              <div className={styles.form}>
+                <div className={styles.row2}>
+                  <div className={styles.field} data-field="price">
+                    <label className={styles.label}>PRECO DE VENDA</label>
+                    <div className={styles.moneyInput}>
+                      <span className={styles.moneyPrefix}>R$</span>
+                      <input
+                        className={inputErrorClass("price")}
+                        value={price}
+                        onChange={(e) => {
+                          setPrice(e.target.value);
+                          if (submitted)
+                            setErrors((p) => ({ ...p, price: undefined }));
+                        }}
+                      />
+                    </div>
+                    {submitted && errors.price ? (
+                      <div className={styles.fieldError}>{errors.price}</div>
+                    ) : null}
+                  </div>
+
+                  <div className={styles.field} data-field="promoPrice">
+                    <label className={styles.label}>PRECO PROMOCIONAL</label>
+                    <div className={styles.moneyInput}>
+                      <span className={styles.moneyPrefix}>R$</span>
+                      <input
+                        className={
+                          submitted && errors.promoPrice
+                            ? `${styles.input} ${styles.inputMuted} ${styles.inputError}`
+                            : `${styles.input} ${styles.inputMuted}`
+                        }
+                        value={promoPrice}
+                        onChange={(e) => {
+                          setPromoPrice(e.target.value);
+                          if (submitted)
+                            setErrors((p) => ({ ...p, promoPrice: undefined }));
+                        }}
+                      />
+                    </div>
+                    {submitted && errors.promoPrice ? (
+                      <div className={styles.fieldError}>{errors.promoPrice}</div>
+                    ) : (
+                      <div className={styles.help}>
+                        Deixe em branco para nao aplicar promocao.
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className={styles.field}>
+                  <label className={styles.label}>ESTOQUE</label>
+                  <div className={styles.inventory}>
+                    <span className={styles.inventoryLabel}>
+                      Ativar controle de estoque
+                    </span>
+                    <div className={styles.availability}>
+                      <button
+                        type="button"
+                        className={`${styles.pill} ${
+                          stockEnabled ? styles.pillOn : styles.pillOff
+                        }`}
+                        aria-label="Disponivel"
+                        onClick={() => alterationStockEnabled()}
+                      >
+                        <span className={styles.pillDot} />
+                      </button>
+                      <span className={styles.disp}>DISP.</span>
+                    </div>
+                  </div>
+                </div>
+
+                {stockEnabled && (
+                  <div className={styles.field} data-field="stock">
+                    <label className={styles.label}>QTD. EM ESTOQUE</label>
+                    <input
+                      className={inputErrorClass("stock")}
+                      value={stock}
+                      onChange={(e) => {
+                        setStock(e.target.value);
+                        if (submitted)
+                          setErrors((p) => ({ ...p, stock: undefined }));
+                      }}
+                    />
+                    {submitted && errors.stock ? (
+                      <div className={styles.fieldError}>{errors.stock}</div>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+          </div>
+        </div>
+
+        <div className={styles.panel}>
+            <div className={styles.panelHeader}>
+              <span className={styles.panelIcon}>🧾</span>
+              <span className={styles.panelTitle}>Detalhes adicionais</span>
+            </div>
+
+            <div className={styles.form}>
+              <div className={styles.row2}>
+                <div className={styles.field}>
+                  <label className={styles.label}>FORNECEDOR</label>
+                  <input
+                    className={styles.input}
+                    value={supplier}
+                    onChange={(e) => setSupplier(e.target.value)}
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label className={styles.label}>COLECAO</label>
+                  <input
+                    className={styles.input}
+                    value={collection}
+                    onChange={(e) => setCollection(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.field}>
+                <label className={styles.label}>OBSERVACOES</label>
+                <textarea
+                  className={styles.textarea}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                />
+              </div>
+            </div>
         </div>
       </div>
-    </div>
   );
 }
