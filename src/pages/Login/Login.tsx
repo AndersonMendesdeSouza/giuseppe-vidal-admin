@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { UserService } from "../../service/User.service";
 import logo from "../../assets/logo.png";
+import { CircularProgress } from "@mui/material";
 type Props = {
   backgroundImageUrl?: string;
   onSubmit?: (data: {
@@ -23,17 +24,20 @@ export default function Login({
   const [password, setPassword] = useState("giuseppe@vidal");
   const [remember, setRemember] = useState(true);
   const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login: contextLogin } = useAuth();
 
   async function login() {
     try {
+      setLoading(true);
       const payload = { email, password };
       const data = await UserService.login(payload);
       localStorage.setItem("token", data.token);
       contextLogin(data.token);
       navigate("/dashboard");
     } catch (error) {
+      setLoading(false);
       alert("Email ou senha inválidos");
     }
   }
@@ -146,10 +150,16 @@ export default function Login({
               type="submit"
               onClick={() => login()}
             >
-              ENTRAR
-              <span className={styles.submitIcon} aria-hidden>
-                <FiArrowRight />
-              </span>
+              {loading ? (
+                <CircularProgress size={20} color="inherit" className={styles.loading} />
+              ) : (
+                <>
+                  ENTRAR
+                  <span className={styles.submitIcon} aria-hidden>
+                    <FiArrowRight />
+                  </span>
+                </>
+              )}
             </button>
 
             <div className={styles.support}>
