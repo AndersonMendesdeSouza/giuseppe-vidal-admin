@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Login.module.css";
 import Colors from "../../themes/Colors";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight } from "react-icons/fi";
@@ -24,9 +24,23 @@ export default function Login({
   const [password, setPassword] = useState("giuseppe@vidal");
   const [remember, setRemember] = useState(true);
   const [showPass, setShowPass] = useState(false);
+  const [step, setStep] = useState<"login" | "verify">("login");
+  const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const codeRefs = useRef<Array<HTMLInputElement | null>>([]);
   const navigate = useNavigate();
   const { login: contextLogin } = useAuth();
+
+  useEffect(() => {
+    if (resendCooldown <= 0) {
+      return;
+    }
+    const timer = window.setInterval(() => {
+      setResendCooldown((current) => Math.max(0, current - 1));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [resendCooldown]);
 
   async function login() {
     try {
@@ -42,9 +56,85 @@ export default function Login({
     }
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function verifyEmail() {
+    try {
+      setLoading(true);
+      const payload = { email, password };
+      const data = await UserService.login(payload);
+      setStep("verify");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      alert("Email ou senha inválidos");
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    onSubmit?.({ email, password, remember });
+    if (step === "login") {
+      onSubmit?.({ email, password, remember });
+      // setStep("verify");
+      return;
+    }
+    try {
+      setLoading(true);
+      const payload = {
+        email,
+        code: code.join(""),
+      };
+      const verify = await UserService.verificationToken(payload);
+      if (!verify) {
+        setCode(["", "", "", "", "", ""]);
+        codeRefs.current[0]?.focus();
+        alert("Codigo invalido");
+        setLoading(false);
+        return;
+      }
+
+      await login();
+    } catch (error) {
+      setCode(["", "", "", "", "", ""]);
+      codeRefs.current[0]?.focus();
+      alert("Codigo invalido");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleResendCode() {
+    if (loading || resendCooldown > 0) {
+      return;
+    }
+    try {
+      setLoading(true);
+      await UserService.login({ email, password });
+      setResendCooldown(60);
+      setCode(["", "", "", "", "", ""]);
+      codeRefs.current[0]?.focus();
+    } catch (error) {
+      alert("Nao foi possivel reenviar o codigo");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleCodeChange(index: number, value: string) {
+    const nextValue = value.replace(/\D/g, "").slice(-1);
+    const next = [...code];
+    next[index] = nextValue;
+    setCode(next);
+    if (nextValue && index < code.length - 1) {
+      codeRefs.current[index + 1]?.focus();
+    }
+  }
+
+  function handleCodeKeyDown(
+    index: number,
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) {
+    if (event.key === "Backspace" && !code[index] && index > 0) {
+      codeRefs.current[index - 1]?.focus();
+    }
   }
 
   return (
@@ -93,80 +183,140 @@ export default function Login({
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>
-            <label className={styles.label}>E-mail</label>
-            <div className={styles.inputWrap}>
-              <span className={styles.inputIcon} aria-hidden>
-                <FiMail />
-              </span>
-              <input
-                className={styles.input}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="exemplo@pinha.com.br"
-                type="email"
-                autoComplete="email"
-              />
-            </div>
-
-            <div className={styles.rowBetweenTop}>
-              <label className={styles.label}>Senha</label>
-              <button type="button" className={styles.forgot}>
-                Esqueci minha senha
-              </button>
-            </div>
-
-            <div className={styles.inputWrap}>
-              <span className={styles.inputIcon} aria-hidden>
-                <FiLock />
-              </span>
-              <input
-                className={styles.input}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                type={showPass ? "text" : "password"}
-                autoComplete="current-password"
-              />
-              <button
-                type="button"
-                className={styles.eyeBtn}
-                onClick={() => setShowPass((v) => !v)}
-                aria-label={showPass ? "Ocultar senha" : "Mostrar senha"}
-              >
-                {showPass ? <FiEyeOff /> : <FiEye />}
-              </button>
-            </div>
-            <label className={styles.check}>
-              <input
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-              />
-              <span>Manter conectado por 30 dias</span>
-            </label>
-
-            <button
-              className={styles.submit}
-              type="submit"
-              onClick={() => login()}
-            >
-              {loading ? (
-                <CircularProgress size={20} color="inherit" className={styles.loading} />
-              ) : (
-                <>
-                  ENTRAR
-                  <span className={styles.submitIcon} aria-hidden>
-                    <FiArrowRight />
+            {step === "login" ? (
+              <>
+                <label className={styles.label}>E-mail</label>
+                <div className={styles.inputWrap}>
+                  <span className={styles.inputIcon} aria-hidden>
+                    <FiMail />
                   </span>
-                </>
-              )}
-            </button>
+                  <input
+                    className={styles.input}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="exemplo@pinha.com.br"
+                    type="email"
+                    autoComplete="email"
+                  />
+                </div>
 
-            <div className={styles.support}>
-              Ainda não tem acesso? <span>Fale com o suporte</span>
-            </div>
+                <div className={styles.rowBetweenTop}>
+                  <label className={styles.label}>Senha</label>
+                  <button type="button" className={styles.forgot}>
+                    Esqueci minha senha
+                  </button>
+                </div>
 
-            <div className={styles.copy}>© 2026 GIUSEPPE VIDAL.</div>
+                <div className={styles.inputWrap}>
+                  <span className={styles.inputIcon} aria-hidden>
+                    <FiLock />
+                  </span>
+                  <input
+                    className={styles.input}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    type={showPass ? "text" : "password"}
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    className={styles.eyeBtn}
+                    onClick={() => setShowPass((v) => !v)}
+                    aria-label={showPass ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {showPass ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+                <label className={styles.check}>
+                  <input
+                    type="checkbox"
+                    checked={remember}
+                    onChange={(e) => setRemember(e.target.checked)}
+                  />
+                  <span>Manter conectado por 30 dias</span>
+                </label>
+
+                <button
+                  className={styles.submit}
+                  type="submit"
+                  onClick={() => verifyEmail()}
+                >
+                  {loading ? (
+                    <CircularProgress
+                      size={20}
+                      color="inherit"
+                      className={styles.loading}
+                    />
+                  ) : (
+                    <>
+                      ENTRAR
+                      <span className={styles.submitIcon} aria-hidden>
+                        <FiArrowRight />
+                      </span>
+                    </>
+                  )}
+                </button>
+
+                <div className={styles.support}>
+                  Ainda nao tem acesso? <span>Fale com o suporte</span>
+                </div>
+                <div className={styles.copy}>© 2026 GIUSEPPE VIDAL.</div>
+              </>
+            ) : (
+              <div className={styles.verifyWrap}>
+                <div className={styles.verifyTitle}>
+                  Verificacao de Seguranca
+                </div>
+                <div className={styles.verifySub}>
+                  Enviamos um codigo de 6 digitos para o seu e-mail.
+                </div>
+                <div className={styles.codeRow}>
+                  {code.map((digit, index) => (
+                    <input
+                      key={`code-${index}`}
+                      className={styles.codeInput}
+                      value={digit}
+                      ref={(el) => {
+                        codeRefs.current[index] = el;
+                      }}
+                      onChange={(e) => handleCodeChange(index, e.target.value)}
+                      onKeyDown={(e) => handleCodeKeyDown(index, e)}
+                      inputMode="numeric"
+                      maxLength={1}
+                      aria-label={`Codigo ${index + 1}`}
+                    />
+                  ))}
+                </div>
+                <div className={styles.verifyNote}>
+                  Por favor, insira o codigo para continuar.
+                </div>
+                <button className={styles.verifyButton} type="submit">
+                  {loading ? (
+                    <CircularProgress
+                      size={20}
+                      color="inherit"
+                      className={styles.loading}
+                    />
+                  ) : (
+                    "VERIFICAR CODIGO"
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className={styles.resend}
+                  onClick={handleResendCode}
+                  disabled={loading || resendCooldown > 0}
+                >
+                  {resendCooldown > 0
+                    ? `Reenviar em ${resendCooldown}s`
+                    : "Reenviar codigo"}
+                </button>
+                <div className={styles.helpLink}>
+                  Nao recebeu o codigo? <span>Fale com suporte</span>
+                </div>
+              </div>
+            )}
           </form>
         </div>
       </div>
