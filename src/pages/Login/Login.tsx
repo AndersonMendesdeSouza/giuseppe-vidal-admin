@@ -20,8 +20,8 @@ export default function Login({
   backgroundImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx5T1LvEjeIQBt-UxZLODbdXIF-tr7NXUvdQ&s",
   onSubmit,
 }: Props) {
-  const [email, setEmail] = useState("admim.giuseppevidal@gmail.com");
-  const [password, setPassword] = useState("giuseppe@vidal");
+  const [email, setEmail] = useState("consultor.giuseppevidal@gmail.com");
+  const [password, setPassword] = useState("giuseppe.vidal@");
   const [remember, setRemember] = useState(true);
   const [showPass, setShowPass] = useState(false);
   const [step, setStep] = useState<"login" | "verify">("login");
@@ -63,9 +63,13 @@ export default function Login({
       const data = await UserService.login(payload);
       setStep("verify");
       setLoading(false);
+      if (!data) {
+        alert("Nao foi possivel enviar o codigo de verificacao");
+        return;
+      }
     } catch (error) {
       setLoading(false);
-      alert("Email ou senha inválidos");
+      alert("Erro na requisicao");
     }
   }
 
