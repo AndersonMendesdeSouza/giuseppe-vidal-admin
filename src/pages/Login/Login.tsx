@@ -19,7 +19,7 @@ export default function Login({
   backgroundImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx5T1LvEjeIQBt-UxZLODbdXIF-tr7NXUvdQ&s",
   onSubmit,
 }: Props) {
-  const [email, setEmail] = useState("admim@giuseppevidal@gmail.com");
+  const [email, setEmail] = useState("admim.giuseppevidal@gmail.com");
   const [password, setPassword] = useState("giuseppe@vidal");
   const [remember, setRemember] = useState(true);
   const [showPass, setShowPass] = useState(false);
